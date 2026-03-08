@@ -279,18 +279,20 @@ nav {
 
 /* -- Slogan -- */
 #slogan {
-    padding: 4.5rem 2rem; background: var(--surface-alt);
-    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 6rem 2rem; 
+    background: var(--heading); /* The black/dark background he wants */
+    border-top: 1px solid var(--border); 
 }
-.slogan-container {
-    max-width: var(--container); margin: 0 auto;
-    display: flex; align-items: center; justify-content: center; gap: 1rem;
+.slogan-icon i { 
+    font-size: 2.5rem; 
+    color: #fca5a5; /* A soft, elegant red/coral instead of harsh neon */
 }
-.slogan-icon { font-size: 2rem; color: var(--red); }
 .slogan-text h2 {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
-    color: var(--heading); font-style: italic;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--surface); /* Crisp white text */
+    font-style: italic;
+    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.15); 
 }
 
 /* -- Service Areas -- */

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - RedFlow Electric</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+
+    <div class="background-bolts-container">
+        <i class="fas fa-bolt"></i><i class="fas fa-bolt"></i><i class="fas fa-bolt"></i><i class="fas fa-bolt"></i><i class="fas fa-bolt"></i>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-bolt"></i>
+                <span><span class="red">Red</span>Flow<span class="blue">Electric</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#services">Services</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="tel:267-215-9473" class="btn-primary">
+                    <i class="fas fa-phone"></i>
+                    267-215-9473
+                </a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="index.html#services" onclick="toggleMobileMenu()">Services</a>
+            <a href="index.html#contact" onclick="toggleMobileMenu()">Contact</a>
+            <a href="tel:267-215-9473" class="btn-primary">
+                <i class="fas fa-phone"></i>
+                Call Now: 267-215-9473
+            </a>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        <section class="error-section">
+            <div class="error-content">
+                <div class="error-icon">
+                    <i class="fas fa-plug-circle-exclamation"></i>
+                </div>
+                <h1>404</h1>
+                <p>Looks like this circuit's been disconnected. The page you're looking for doesn't exist.</p>
+                <a href="index.html" class="btn-primary btn-large">
+                    <i class="fas fa-house"></i>
+                    Back to Home
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; <span id="copyright-year">2025</span> RedFlow Electric. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms &amp; Conditions</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

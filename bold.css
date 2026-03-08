@@ -95,7 +95,7 @@ nav {
 /* -- Buttons -- */
 .btn-primary {
     display: inline-flex; align-items: center; gap: 0.45rem;
-    padding: 0.6rem 1.4rem; background: var(--red); color: #fff;
+    padding: 0.6rem 1.4rem; background: var(--red); color: #ffffff;
     border: 2px solid var(--red); border-radius: var(--radius);
     text-decoration: none; font-family: inherit;
     font-size: 0.9rem; font-weight: 500;

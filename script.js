@@ -1,153 +1,93 @@
-/* ========================
-   Mobile Menu
-   ======================== */
+// ---- Mobile Menu ----
 function toggleMobileMenu() {
-    var menu = document.getElementById('mobile-menu');
-    var btn = document.querySelector('.mobile-menu-btn');
-    var isOpen = menu.classList.toggle('active');
-    if (btn) btn.setAttribute('aria-expanded', isOpen);
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.querySelector('.mobile-menu-btn');
+    menu.classList.toggle('active');
+    btn.setAttribute('aria-expanded', menu.classList.contains('active'));
 }
 
-/* ========================
-   Image Slider
-   ======================== */
-var slideIndex = 0;
-var slideInterval;
+// ---- Image Slider ----
+let currentSlide = 0;
+let slides, dots;
+let autoplayTimer;
 
 function initSlider() {
-    var slides = document.querySelectorAll('.slide');
-    var dotsContainer = document.querySelector('.slider-dots');
-    var container = document.querySelector('.slider-container');
+    slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.querySelector('.slider-dots');
     if (!slides.length || !dotsContainer) return;
 
-    for (var i = 0; i < slides.length; i++) {
-        var dot = document.createElement('button');
-        dot.className = 'slider-dot';
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.classList.add('dot');
+        if (i === 0) dot.classList.add('active');
         dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-        dot.dataset.index = i;
-        dot.addEventListener('click', function () {
-            goToSlide(parseInt(this.dataset.index));
-        });
+        dot.addEventListener('click', (e) => { e.stopPropagation(); goToSlide(i); });
         dotsContainer.appendChild(dot);
-    }
+    });
 
-    goToSlide(0);
-    startAutoPlay();
-
-    container.addEventListener('mouseenter', stopAutoPlay);
-    container.addEventListener('mouseleave', startAutoPlay);
+    dots = document.querySelectorAll('.slider-dots .dot');
+    if (!slides[0].classList.contains('active')) slides[0].classList.add('active');
+    startAutoplay();
 }
 
-function goToSlide(index) {
-    var slides = document.querySelectorAll('.slide');
-    var dots = document.querySelectorAll('.slider-dot');
-    if (!slides.length) return;
+function goToSlide(n) {
+    if (!slides || !slides.length) return;
+    slides[currentSlide].classList.remove('active');
+    if (dots && dots[currentSlide]) dots[currentSlide].classList.remove('active');
 
-    if (index >= slides.length) index = 0;
-    if (index < 0) index = slides.length - 1;
-    slideIndex = index;
+    currentSlide = ((n % slides.length) + slides.length) % slides.length;
 
-    for (var i = 0; i < slides.length; i++) slides[i].style.display = 'none';
-    for (var j = 0; j < dots.length; j++) dots[j].classList.remove('active');
-
-    slides[slideIndex].style.display = 'block';
-    if (dots[slideIndex]) dots[slideIndex].classList.add('active');
+    slides[currentSlide].classList.add('active');
+    if (dots && dots[currentSlide]) dots[currentSlide].classList.add('active');
+    resetAutoplay();
 }
 
-function nextSlide() { goToSlide(slideIndex + 1); }
-function prevSlide() { goToSlide(slideIndex - 1); }
+function nextSlide() { goToSlide(currentSlide + 1); }
+function prevSlide() { goToSlide(currentSlide - 1); }
 
-function startAutoPlay() {
-    stopAutoPlay();
-    slideInterval = setInterval(nextSlide, 4500);
-}
+function startAutoplay() { autoplayTimer = setInterval(nextSlide, 5000); }
+function resetAutoplay() { clearInterval(autoplayTimer); startAutoplay(); }
 
-function stopAutoPlay() {
-    clearInterval(slideInterval);
-}
-
-/* ========================
-   Lightbox
-   ======================== */
-function openLightbox(element) {
-    var imgSrc = element.querySelector('img').src;
-    var lightbox = document.getElementById('lightbox');
-    var lightboxImg = document.getElementById('lightbox-img');
-    if (!lightbox || !lightboxImg) return;
-    lightboxImg.src = imgSrc;
+// ---- Lightbox ----
+function openLightbox(slideEl) {
+    const img = slideEl.querySelector('img');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    if (!img || !lightbox || !lightboxImg) return;
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
 
-function closeLightbox(event) {
-    if (event) event.stopPropagation();
-    var lightbox = document.getElementById('lightbox');
+function closeLightbox(e) {
+    if (e) e.stopPropagation();
+    const lightbox = document.getElementById('lightbox');
     if (lightbox) lightbox.classList.remove('active');
     document.body.style.overflow = '';
 }
 
-/* ========================
-   Nav Scroll Effect
-   ======================== */
-function initNavScroll() {
-    var nav = document.querySelector('nav');
-    if (!nav) return;
+// ---- Init ----
+document.addEventListener('DOMContentLoaded', () => {
+    // Copyright year
+    const yr = document.getElementById('copyright-year');
+    if (yr) yr.textContent = new Date().getFullYear();
 
-    function checkScroll() {
-        if (window.scrollY > 10) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-    }
-
-    window.addEventListener('scroll', checkScroll, { passive: true });
-    checkScroll();
-}
-
-/* ========================
-   Scroll Reveal Animations
-   ======================== */
-function initScrollAnimations() {
-    var targets = document.querySelectorAll('[data-animate], [data-animate-stagger]');
-    if (!targets.length) return;
-
-    if (!('IntersectionObserver' in window)) {
-        targets.forEach(function (el) {
-            el.classList.add('is-visible');
-        });
-        return;
-    }
-
-    var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px'
-    });
-
-    targets.forEach(function (el) {
-        observer.observe(el);
-    });
-}
-
-/* ========================
-   Init
-   ======================== */
-document.addEventListener('DOMContentLoaded', function () {
+    // Slider
     initSlider();
-    initNavScroll();
-    initScrollAnimations();
 
-    document.addEventListener('keydown', function (e) {
+    // Close mobile menu on outside click
+    document.addEventListener('click', (e) => {
+        const menu = document.getElementById('mobile-menu');
+        const btn = document.querySelector('.mobile-menu-btn');
+        if (menu && btn && menu.classList.contains('active') &&
+            !menu.contains(e.target) && !btn.contains(e.target)) {
+            toggleMobileMenu();
+        }
+    });
+
+    // Escape key closes lightbox
+    document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeLightbox();
     });
-
-    var yearEl = document.getElementById('copyright-year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
 });
